@@ -2,9 +2,9 @@ const form = document.querySelector('#add-form');
 const input = document.querySelector('#task-input');
 const tip = document.querySelector('#tip');
 const list = document.querySelector('#task-list');
-let tasks = [];
 const filters = document.querySelector('.filters');
 let currentFilter = 'all'; 
+let tasks = JSON.parse(localStorage.getItem('tasks') || '[]');
 const render = () => {
     list.innerHTML = '';
     const shown = tasks.filter(t =>
@@ -36,6 +36,7 @@ form.addEventListener('submit', (e) => {
         return;
     }
     tasks.push({ text: text, done: false });
+    save();
     tip.textContent = '';
     input.value = '';
     render();
@@ -46,3 +47,4 @@ filters.addEventListener('click', (e) => {
     currentFilter = e.target.dataset.filter;
     render();
 });
+const save = () => localStorage.setItem('tasks', JSON.stringify(tasks));
